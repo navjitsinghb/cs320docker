@@ -234,12 +234,12 @@ let commandParser =
 
 let rec eval ls s = 
   (* match ls with 
-    Push i :: rest -> eval rest (i::s)
-  |
-    Pop i :: rest -> 
-    match s with 
+     Push i :: rest -> eval rest (i::s)
+     |
+     Pop i :: rest -> 
+     match s with 
       h::tail -> eval rest tail
-    |
+     |
       Add i :: rest ->
       match s with 
         h1::h2::tail -> eval rest (h1+h2)::tail *)
@@ -249,13 +249,14 @@ let rec eval ls s =
 (*
 
 STUFF I ADDED: PARSERS AND SUCH 
+Parts I Have Completed: 
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 STUFF THAT CAME WITH ASSIGNMENT
 
 *)
 
-(*came with assignment*)
-let keyword (s : string) : unit parser = literal s >> ws >| ()
+  (*came with assignment*)
+  let keyword (s : string) : unit parser = literal s >> ws >| ()
 
 (* end of parser combinators *)
 
