@@ -209,14 +209,14 @@ type com =
 let integer = 
   many1 digit >>= fun ls -> 
   pure (int_of_string (implode ls));;
-
+(* boooool *)
 let bool = 
   (literal "True" >>= fun _->
    return true)
   <|>
   (literal "False" >>= fun _->
    return false);;
-   
+
 
 let pushCommand = 
   satisfy (fun x ->x='P') >>= fun _ -> 
