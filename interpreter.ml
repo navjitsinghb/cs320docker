@@ -2,6 +2,8 @@
 Students: Navjit Bath, Franky  
 Assignemnt: interpreter project part 1
 Date: 11/04/2022
+
+
 *)
 
 
@@ -183,7 +185,20 @@ let literal (s : string) : unit parser =
     | _ -> None
   in loop cs ls;;
 
+      (*
 
+      STUFF I ADDED: PARSERS AND SUCH 
+      Parts I Have Completed: 
+      ---------------------------------------------------------------------------------------------------------------------------------------------------
+      STUFF THAT CAME WITH ASSIGNMENT
+
+      *)
+
+(*came with assignment*)
+let keyword (s : string) : unit parser = literal s >> ws >| ()
+
+(* end of parser combinators *)
+let return = pure
 type com =
     Push of int
   |
@@ -194,6 +209,13 @@ type com =
 let integer = 
   many1 digit >>= fun ls -> 
   pure (int_of_string (implode ls));;
+
+let bool = 
+  (literal "True" >>= fun _->
+   return true)
+  <|>
+  (literal "False" >>= fun _->
+   return false);;
 
 let pushCommand = 
   satisfy (fun x ->x='P') >>= fun _ -> 
@@ -220,11 +242,16 @@ let popCommand' =
   integer >>= fun i -> 
   pure (Pop i);;
 
-let parse_abc = 
-  satisfy (fun x->x='a') >>= fun c1 ->
-  satisfy (fun x->x='b') >>= fun c2 ->
-  satisfy (fun x->x='c') >>= fun c3 ->
-  pure ([c1;c2;c3]);;
+
+let traceCommand = 
+  literal "Trace" >>= fun _->
+  ws >> fun _->
+
+  let parse_abc = 
+    satisfy (fun x->x='a') >>= fun c1 ->
+    satisfy (fun x->x='b') >>= fun c2 ->
+    satisfy (fun x->x='c') >>= fun c3 ->
+    pure ([c1;c2;c3]);;
 
 let commandParser = 
   pushCommand <|> popCommand';;
@@ -246,22 +273,9 @@ let rec eval ls s =
 
 
 
-(*
 
-STUFF I ADDED: PARSERS AND SUCH 
-Parts I Have Completed: 
----------------------------------------------------------------------------------------------------------------------------------------------------
-STUFF THAT CAME WITH ASSIGNMENT
-
-*)
-
-  (*came with assignment*)
-  let keyword (s : string) : unit parser = literal s >> ws >| ()
-
-(* end of parser combinators *)
-
-(* TODO *)
-let interp (src : string) : string list = failwith "unimplemented"
+  (* TODO *)
+  let interp (src : string) : string list = failwith "unimplemented"
 
 (* Calling (main "test.txt") will read the file test.txt and run interp on it.
    This is only used for debugging and will not be used by the gradescope autograder. *)
